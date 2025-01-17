@@ -10,4 +10,5 @@ WTF_CSRF_ENABLED = True
 WTF_CSRF_TIME_LIMIT = None
 
 # SendGrid
-MAIL_USERNAME = os.environ['EMAIL_USER']
+# MAIL_USERNAME = os.environ['EMAIL_USER']
+MAIL_USERNAME = '915157650@qq.com'

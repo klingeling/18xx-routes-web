@@ -130,7 +130,7 @@ function updatePhase() {
             $("#board-phase").text(phase);
         })
         .fail((jqXHR, textStatus, errorThrown) => {
-            $("#board-phase").text("unknown");
+            $("#board-phase").text("未知");
         });
 }
 
@@ -252,13 +252,13 @@ function headers() {
             .css("font-size", "125%")
             .append($("<th></th>")
                 .css("width", "30%")
-                .text("Name"))
+                .text("名称"))
             .append($("<th></th>")
                 .css("width", "20%")
-                .text("Trains"))
+                .text("火车"))
             .append($("<th></th>")
                 .css("width", "35%")
-                .text("Stations")));
+                .text("车站")));
 }
 
 function newRow() {

@@ -2,15 +2,15 @@
 
 {% block body %}
 <div>
-    <span style="display: inline-block; font-size: 2rem; font-family: inherit; font-weight: 500;">{{ g.game_name }} Route Calculator</span>
+    <span style="display: inline-block; font-size: 2rem; font-family: inherit; font-weight: 500;">{{ g.game_name }} 路线计算器</span>
     <span>&nbsp;</span>
-    <button id="general-report-issue-open" class="float-right btn btn-outline-danger" data-toggle="modal" data-target="#general-report-issue-modal" style="margin-right: 25px;">Report Issue</button>
+    <button id="general-report-issue-open" class="float-right btn btn-outline-danger" data-toggle="modal" data-target="#general-report-issue-modal" style="margin-right: 25px;">报告问题</button>
     <span>&nbsp;</span>
-    <span><a href="{{ url_for('game_picker') }}">Back to Game Picker</a></span>
+    <span><a href="{{ url_for('game_picker') }}">返回游戏选择器</a></span>
 </div>
 <div id="controls" style="margin-bottom: 10px; width: 100%; text-align: center">
-    <button id="global-import-export-button" type="button" class="btn btn btn-outline-primary" style="margin-left: 20px" data-toggle="modal" data-target="#global-import-export-modal">Global Import/Export</button>
-    <button id="controls-clear" type="button" class="btn btn-outline-danger" style="margin-left: 10px;" data-toggle="modal" data-target="#confirm-clear-map-modal">Clear Map</button>
+    <button id="global-import-export-button" type="button" class="btn btn btn-outline-primary" style="margin-left: 20px" data-toggle="modal" data-target="#global-import-export-modal">全局导入/导出</button>
+    <button id="controls-clear" type="button" class="btn btn-outline-danger" style="margin-left: 10px;" data-toggle="modal" data-target="#confirm-clear-map-modal">清除地图</button>
 </div>
 <div id="app-input-area">
     <div id="map-section" style="float: left; max-width: 60%">
@@ -25,20 +25,20 @@
     <div id="entry-section" style="float: left;">
         <ul class="nav nav-tabs" id="config-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="railroad-table-tab" data-toggle="tab" href="#railroad-table-tab-content" role="tab" aria-controls="railroad-table-tab" aria-selected="true">Railroads</a>
+                <a class="nav-link active" id="railroad-table-tab" data-toggle="tab" href="#railroad-table-tab-content" role="tab" aria-controls="railroad-table-tab" aria-selected="true">铁路公司</a>
             </li>
             {%- if private_company_rownames %}
             <li class="nav-item">
-                <a class="nav-link" id="private-companies-table-tab" data-toggle="tab" href="#private-companies-table-tab-content" role="tab" aria-controls="private-companies-table-tab" aria-selected="false">Private Companies</a>
+                <a class="nav-link" id="private-companies-table-tab" data-toggle="tab" href="#private-companies-table-tab-content" role="tab" aria-controls="private-companies-table-tab" aria-selected="false">私有公司</a>
             </li>
             {% endif %}
             <div id="calculate-dropdown" class="dropdown">
                 <button type="button" class="btn btn-success dropdown-toggle" id="calculate-dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Calculate
+                    计算
                 </button>
                 <div id="calculate-dropdown-menu" class="dropdown-menu" aria-labelledby="calculate-dropdown-button"></div>
             </div>
-            <div style="margin-left: 10px; font-weight: bold; font-size: 1.5em;">Phase <span id="board-phase"></span></div>
+            <div style="margin-left: 10px; font-weight: bold; font-size: 1.5em;">阶段 <span id="board-phase"></span></div>
         </ul>
         <div id="config-tabs-content" class="tab-content" style="margin-top: 15px;">
             <div class="tab-pane fade show active" id="railroad-table-tab-content" role="tabpanel" aria-labelledby="home-tab">
@@ -46,7 +46,7 @@
                 <div>
                     {% if closable_railroads -%}
                     <div style="margin-top: 10px; float: left;">
-                        <h4>Closed Railroads</h4>
+                        <h4>已关闭铁路公司</h4>
                         <div class="dropdown" id="close-railroad-dropdown" style="margin-bottom: 5px;">
                             <button class="btn btn-sm btn-danger dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="oi oi-plus align-text-top"></span>
@@ -59,7 +59,7 @@
                     {% if removable_railroads -%}
                     <div style="margin-left: 20px; float: left;">&nbsp;</div>
                     <div style="margin-top: 10px; float: left;">
-                        <h4>Removed Railroads</h4>
+                        <h4>已移除铁路公司</h4>
                         <div class="dropdown" id="remove-railroad-dropdown" style="margin-bottom: 5px;">
                             <button class="btn btn-sm btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="oi oi-plus align-text-top"></span>
@@ -89,51 +89,50 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Import/Export</h2>
+                <h2>导入/导出</h2>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <p>
-                    Use the text areas to import or modify their respective data. The current state is pre-loaded. In
-                    each text area, one row corresponds to one item (e.g. one tile). The data fields will be listed, and
-                    all of them are delimited by semi-colons.
+                    使用文本区域导入或修改各自的数据。当前状态已预加载。在每个文本区域中，一行代表一个项目
+                    (例如: 一块板块)。将列出数据字段，所有字段都由分号分隔。
                 </p>
                 <ul class="nav nav-tabs" id="import-export-tabs" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="tiles-import-export-tab" data-toggle="tab" href="#tiles-import-export-tab-content" role="tab" aria-controls="tiles-import-export-tab" aria-selected="true">Tiles</a>
+                        <a class="nav-link active" id="tiles-import-export-tab" data-toggle="tab" href="#tiles-import-export-tab-content" role="tab" aria-controls="tiles-import-export-tab" aria-selected="true">板块</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="railroads-import-export-tab" data-toggle="tab" href="#railroads-import-export-tab-content" role="tab" aria-controls="railroads-import-export-tab" aria-selected="true">Railroads</a>
+                        <a class="nav-link" id="railroads-import-export-tab" data-toggle="tab" href="#railroads-import-export-tab-content" role="tab" aria-controls="railroads-import-export-tab" aria-selected="true">铁路公司</a>
                     </li>
                     {%- if private_company_rownames %}
                     <li class="nav-item">
-                        <a class="nav-link" id="private-companies-import-export-tab" data-toggle="tab" href="#private-companies-import-export-tab-content" role="tab" aria-controls="private-companies-import-export-tab" aria-selected="true">Private Companies</a>
+                        <a class="nav-link" id="private-companies-import-export-tab" data-toggle="tab" href="#private-companies-import-export-tab-content" role="tab" aria-controls="private-companies-import-export-tab" aria-selected="true">私有公司</a>
                     </li>
                     {% endif %}
                 </ul>
                 <div class="tab-content" id="import-export-tab-content" style="margin-left: 50px; margin-top: 30px;">
                     <div class="tab-pane fade show active" id="tiles-import-export-tab-content" role="tabpanel" aria-labelledby="tiles-import-export-tab">
                         <p>
-                            Fields: cell coordinate; tile ID; tile orientation<br />
-                            Example: "B16; 619; 4"
+                            字段: 单元格坐标; 板块 ID; 板块方向<br />
+                            示例: "B16; 619; 4"
                         </p>
                         <textarea id="tiles-import-export-textarea" style="width: 100%;" rows="15"></textarea>
                     </div>
                     <div class="tab-pane fade" id="railroads-import-export-tab-content" role="tabpanel" aria-labelledby="railroads-import-export-tab">
                         <p>
-                            Fields: railroad name; trains; stations<br />
-                            Note that trains and stations are comma-separated lists.<br />
-                            Example: "Grand Trunk; 3/5, 4; C15, D6:C7"
+                            字段: 铁路公司名称; 火车; 车站<br />
+                            请注意，火车和车站是通过逗号分隔的列表。<br />
+                            示例: "Grand Trunk; 3/5, 4; C15, D6:C7"
                         </p>
                         <textarea id="railroads-import-export-textarea" style="width: 100%;" rows="7"></textarea>
                     </div>
                     {%- if private_company_rownames %}
                     <div class="tab-pane fade" id="private-companies-import-export-tab-content" role="tabpanel" aria-labelledby="private-companies-import-export-tab">
                         <p>
-                            Fields: company name; owner; token coordinate<br />
-                            Example: "Meat Packing Company; Baltimore & Ohio; I1"
+                            字段: 公司名称; 拥有者; 标记坐标<br />
+                            示例: "Meat Packing Company; Baltimore & Ohio; I1"
                         </p>
                         <textarea id="private-companies-import-export-textarea" style="width: 100%;" rows="7"></textarea>
                     </div>
@@ -141,7 +140,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" type="button" id="global-import-save">Save</button>
+                <button class="btn btn-primary" type="button" id="global-import-save">保存</button>
             </div>
         </div>
     </div>
